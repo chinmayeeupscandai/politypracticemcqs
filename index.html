@@ -44,11 +44,18 @@ button {
     color: white;
     font-size: 16px;
     border-radius: 6px;
+    cursor: pointer;
+}
+
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
 }
 
 #status {
     text-align: center;
     margin-top: 10px;
+    font-weight: 500;
 }
 
 .progress-container {
@@ -108,14 +115,16 @@ button {
 
 <script>
 
-// Payment Check
+// Payment Check Logic
 const urlParams = new URLSearchParams(window.location.search);
 
-if (urlParams.get('paid') === 'true') {
+// If redirected after successful payment
+if (urlParams.get('payment_status') === 'success') {
     localStorage.setItem("mcqPaid", "yes");
-    window.location.href = window.location.pathname;
+    window.location.href = window.location.origin + window.location.pathname;
 }
 
+// If not paid, redirect to Cashfree
 if (localStorage.getItem("mcqPaid") !== "yes") {
     window.location.href = "https://payments.cashfree.com/forms?code=polity";
 } else {
